@@ -1,18 +1,28 @@
 ﻿//https://adventofcode.com/2024/
 
-namespace Advent2024
+using System.Text;
+
+namespace AdventOfCode2024
 {
-    internal static class Program
+    internal class Program
     {
         #region Private Methods
 
-        private static void Main()
+        private static void Main(string[] args)
         {
             var reader = File.OpenText("input.txt");
 
-            var rules = new Dictionary<int, HashSet<int>>();
+            var map = new List<StringBuilder>();
 
-            var sum = 0;
+            Vec2i position = null;
+
+            var directions = new Dictionary<char, Vec2i>()
+            {
+                { '^', new Vec2i(x: 0, y: -1) },
+                { '>', new Vec2i(x: 1, y: 0) },
+                { '<', new Vec2i(x: -1, y: 0) },
+                { 'v', new Vec2i(x: 0, y: 1) },
+            };
 
             while (!reader.EndOfStream)
             {
@@ -21,53 +31,63 @@ namespace Advent2024
                 if (String.IsNullOrEmpty(line))
                     continue;
 
-                if (line.Contains('|'))
+                map.Add(new StringBuilder(line));
+
+                foreach (var directionChar in directions.Keys)
                 {
-                    var parts = line.Split('|');
-                    var page1 = Int32.Parse(parts[0]);
-                    var page2 = Int32.Parse(parts[1]);
+                    var pos = line.IndexOf(directionChar);
 
-                    if (!rules.TryGetValue(page2, out var set))
-                    {
-                        set = new HashSet<int>();
-                        rules[page2] = set;
-                    }
+                    if (pos != -1)
+                        position = new Vec2i(pos, map.Count - 1);
+                }
+            }
 
-                    set.Add(page1);
+            if (position == null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var maxX = map[0].Length;
+            var maxY = map.Count;
+
+            while (true)
+            {
+                var currentDirection = map[position.Y][position.X];
+
+                map[position.Y][position.X] = 'X';
+
+                var directionStep = directions[currentDirection];
+
+                var newPosition = position + directionStep;
+
+                if (newPosition.X < 0 || newPosition.X >= maxX || newPosition.Y < 0 || newPosition.Y >= maxY)
+                {
+                    break;
+                }
+
+                var nextCell = map[newPosition.Y][newPosition.X];
+
+                if (nextCell == '#')
+                {
+                    if (currentDirection == '^')
+                        currentDirection = '>';
+                    else if (currentDirection == '>')
+                        currentDirection = 'v';
+                    else if (currentDirection == 'v')
+                        currentDirection = '<';
+                    else if (currentDirection == '<')
+                        currentDirection = '^';
+
+                    map[position.Y][position.X] = currentDirection;
                 }
                 else
                 {
-                    var pages = line.Split(',').Select(Int32.Parse).ToList();
-
-                    bool isOk = true;
-
-                    for (int i = 0; i < pages.Count - 1 && isOk; i++)
-                    {
-                        if (rules.TryGetValue(pages[i], out var set))
-                        {
-                            for (int j = i + 1; j < pages.Count; j++)
-                            {
-                                if (set.Contains(pages[j]))
-                                {
-                                    Console.WriteLine($"{i} - {j}");
-                                    isOk = false;
-                                }
-                            }
-                        }
-                    }
-
-                    if (isOk)
-                    {
-                        var middleIndex = pages.Count / 2;
-
-                        sum += pages[middleIndex];
-                    }
-                    else
-                    {
-                        Console.WriteLine(line);
-                    }
+                    position = newPosition;
+                    map[position.Y][position.X] = currentDirection;
                 }
             }
+
+            var sum = map.Sum(sb => sb.ToString().Count(c => c == 'X'));
 
             Console.WriteLine(sum);
 
@@ -78,5 +98,39 @@ namespace Advent2024
         }
 
         #endregion Private Methods
+
+        #region Private Classes
+
+        private class Vec2i
+        {
+            #region Public Constructors
+
+            public Vec2i(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
+
+            #endregion Public Constructors
+
+            #region Public Properties
+
+            public int X { get; set; }
+
+            public int Y { get; set; }
+
+            #endregion Public Properties
+
+            #region Public Methods
+
+            public static Vec2i operator +(Vec2i lhs, Vec2i rhs)
+            {
+                return new Vec2i(lhs.X + rhs.X, lhs.Y + rhs.Y);
+            }
+
+            #endregion Public Methods
+        }
+
+        #endregion Private Classes
     }
 }
