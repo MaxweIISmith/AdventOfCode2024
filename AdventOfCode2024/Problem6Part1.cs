@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AdventOfCode2024.Helpers;
 
 namespace AdventOfCode2024;
 
@@ -12,7 +13,7 @@ public static class Problem6Part1
 
         var map = new List<StringBuilder>();
 
-        Vec2i position = null;
+        Vec2i position = new Vec2i(0, 0);
 
         var directions = new Dictionary<char, Vec2i>()
             {
@@ -38,11 +39,6 @@ public static class Problem6Part1
                 if (pos != -1)
                     position = new Vec2i(pos, map.Count - 1);
             }
-        }
-
-        if (position == null)
-        {
-            throw new InvalidOperationException();
         }
 
         var maxX = map[0].Length;
@@ -95,38 +91,4 @@ public static class Problem6Part1
     }
 
     #endregion Public Methods
-
-    #region Private Classes
-
-    private class Vec2i
-    {
-        #region Public Constructors
-
-        public Vec2i(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        #endregion Public Constructors
-
-        #region Public Properties
-
-        public int X { get; set; }
-
-        public int Y { get; set; }
-
-        #endregion Public Properties
-
-        #region Public Methods
-
-        public static Vec2i operator +(Vec2i lhs, Vec2i rhs)
-        {
-            return new Vec2i(lhs.X + rhs.X, lhs.Y + rhs.Y);
-        }
-
-        #endregion Public Methods
-    }
-
-    #endregion Private Classes
 }
