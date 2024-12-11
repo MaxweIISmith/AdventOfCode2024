@@ -4,7 +4,7 @@ public struct Vec2i : IEquatable<Vec2i>
 {
     #region Public Constructors
 
-    public Vec2i(int x, int y)
+    public Vec2i(int x = 0, int y = 0)
     {
         X = x;
         Y = y;
@@ -22,9 +22,24 @@ public struct Vec2i : IEquatable<Vec2i>
 
     #region Public Methods
 
+    public static Vec2i operator -(Vec2i lhs, Vec2i rhs)
+    {
+        return new Vec2i(lhs.X - rhs.X, lhs.Y - rhs.Y);
+    }
+
+    public static bool operator !=(Vec2i lhs, Vec2i rhs)
+    {
+        return !lhs.Equals(rhs);
+    }
+
     public static Vec2i operator +(Vec2i lhs, Vec2i rhs)
     {
         return new Vec2i(lhs.X + rhs.X, lhs.Y + rhs.Y);
+    }
+
+    public static bool operator ==(Vec2i lhs, Vec2i rhs)
+    {
+        return lhs.Equals(rhs);
     }
 
     public bool Equals(Vec2i other)
@@ -40,6 +55,11 @@ public struct Vec2i : IEquatable<Vec2i>
     public override int GetHashCode()
     {
         return HashCode.Combine(X, Y);
+    }
+
+    public override string ToString()
+    {
+        return $"({X},{Y})";
     }
 
     #endregion Public Methods
