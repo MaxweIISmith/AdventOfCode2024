@@ -3,7 +3,7 @@ using AdventOfCode2024.Helpers;
 
 namespace AdventOfCode2024;
 
-public static class Problem8Part2
+public static class Problem08Part1
 {
     public static void Solve()
     {
@@ -65,25 +65,17 @@ public static class Problem8Part2
                         continue;
 
                     var diff = antenna1 - antenna2;
+                    var antinode1 = antenna1 + diff;
+                    var antinode2 = antenna2 - diff;
 
-                    var antinode = antenna1 + diff;
-                    while (true)
+                    if (isOkAntinodeLocation(antinode1))
                     {
-                        if (!isOkAntinodeLocation(antinode))
-                            break;
-
-                        antidoteLocations.Add(antinode);
-                        antinode += diff;
+                        antidoteLocations.Add(antinode1);
                     }
 
-                    antinode = antenna1 - diff;
-                    while (true)
+                    if (isOkAntinodeLocation(antinode2))
                     {
-                        if (!isOkAntinodeLocation(antinode))
-                            break;
-
-                        antidoteLocations.Add(antinode);
-                        antinode -= diff;
+                        antidoteLocations.Add(antinode2);
                     }
                 }
             }

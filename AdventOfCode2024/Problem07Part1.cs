@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2024;
 
-public static class Problem7Part1
+public static class Problem07Part1
 {
     public static void Solve()
     {

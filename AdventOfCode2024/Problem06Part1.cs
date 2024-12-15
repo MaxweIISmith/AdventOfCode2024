@@ -3,7 +3,7 @@ using AdventOfCode2024.Helpers;
 
 namespace AdventOfCode2024;
 
-public static class Problem6Part1
+public static class Problem06Part1
 {
     #region Public Methods
 
