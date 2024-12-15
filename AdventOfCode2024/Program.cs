@@ -8,7 +8,7 @@ namespace AdventOfCode2024
 
         private static void Main(string[] args)
         {
-            Problem12Part2.Solve();
+            Problem13Part2.Solve();
 
 #if DEBUG
             Console.Write("Press any key to continue...");
