@@ -32,6 +32,11 @@ public struct Vec2i : IEquatable<Vec2i>
         return !lhs.Equals(rhs);
     }
 
+    public static Vec2i operator *(int k, Vec2i v)
+    {
+        return new Vec2i(k * v.X, k * v.Y);
+    }
+
     public static Vec2i operator +(Vec2i lhs, Vec2i rhs)
     {
         return new Vec2i(lhs.X + rhs.X, lhs.Y + rhs.Y);
@@ -40,6 +45,12 @@ public struct Vec2i : IEquatable<Vec2i>
     public static bool operator ==(Vec2i lhs, Vec2i rhs)
     {
         return lhs.Equals(rhs);
+    }
+
+    public void Deconstruct(out int x, out int y)
+    {
+        x = X;
+        y = Y;
     }
 
     public bool Equals(Vec2i other)
