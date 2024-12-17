@@ -2,6 +2,14 @@
 
 public struct Vec2i : IEquatable<Vec2i>
 {
+    #region Public Fields
+
+    public static readonly Vec2i UnitX = new Vec2i(1, 0);
+
+    public static readonly Vec2i UnitY = new Vec2i(0, 1);
+
+    #endregion Public Fields
+
     #region Public Constructors
 
     public Vec2i(int x = 0, int y = 0)
