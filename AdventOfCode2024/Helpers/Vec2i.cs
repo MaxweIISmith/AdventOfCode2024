@@ -35,6 +35,11 @@ public struct Vec2i : IEquatable<Vec2i>
         return new Vec2i(lhs.X - rhs.X, lhs.Y - rhs.Y);
     }
 
+    public static Vec2i operator -(Vec2i v)
+    {
+        return new Vec2i(-v.X, -v.Y);
+    }
+
     public static bool operator !=(Vec2i lhs, Vec2i rhs)
     {
         return !lhs.Equals(rhs);
