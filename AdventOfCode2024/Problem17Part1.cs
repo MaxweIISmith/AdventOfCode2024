@@ -46,6 +46,8 @@ namespace AdventOfCode2024
             int index = 0;
             while (true)
             {
+
+
                 if (index >= program.Count)
                     break;
 
@@ -55,13 +57,13 @@ namespace AdventOfCode2024
                 switch (command)
                 {
                     case 0:
-                        a /= (int)Math.Pow(2, combo(operand));
+                        a >>= combo(operand);
                         break;
                     case 1:
                         b ^= operand;
                         break;
                     case 2:
-                        b = combo(operand) % 8;
+                        b = combo(operand) & 0x7;
                         break;
                     case 3:
                         if (a != 0)
@@ -74,13 +76,18 @@ namespace AdventOfCode2024
                         b ^= c;
                         break;
                     case 5:
-                        result.Add(combo(operand) % 8);
+                        result.Add(combo(operand) & 0x7);
+
+                        Console.WriteLine($"a = {a}");
+                        Console.WriteLine($"b = {b}");
+                        Console.WriteLine($"c = {c}");
+                        Console.WriteLine(result.Last());
                         break;
                     case 6:
-                        b = a / (int)Math.Pow(2, combo(operand));
+                        b = a >> combo(operand);
                         break;
                     case 7:
-                        c = a / (int)Math.Pow(2, combo(operand));
+                        c = a >> combo(operand);
                         break;
                 }
 
